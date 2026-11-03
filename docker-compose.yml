@@ -1,0 +1,28 @@
+# Учебное окружение: PostgreSQL для проекта Montreux
+# Запуск:      docker compose up -d
+# Остановка:   docker compose down
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: montreux-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: montreux
+      POSTGRES_USER: montreux
+      POSTGRES_PASSWORD: montreux_dev # пароль только для разработки
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # Веб-панель для просмотра таблиц
+  adminer:
+    image: adminer:4
+    container_name: montreux-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
